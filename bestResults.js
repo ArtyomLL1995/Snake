@@ -21,7 +21,7 @@ function createBestResult(result) {
 
 function getBestResults() {
     const results = localStorage.getItem('bestSnakeResutls')
-    if (results === '') {
+    if (results === null) {
         localStorage.setItem('bestSnakeResutls', JSON.stringify([]))
     }
     return JSON.parse(localStorage.getItem('bestSnakeResutls'))

@@ -12,7 +12,7 @@ const snake = []
 const snakeCoords = new Map()
 const foodCoords = {x:0, y:0}
 const allFieldCoords = []
-let comingThroughWalls = true
+let comingThroughWalls = false
 let speed = 50
 let direction = 'right'
 let currentFood
