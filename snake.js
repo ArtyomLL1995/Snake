@@ -1,5 +1,5 @@
-const fieldSize = 35
-const baseSnakeSize = 10
+const fieldSize = 30
+const baseSnakeSize = 15
 
 const basePointX = baseSnakeSize
 const basePointY = baseSnakeSize
