@@ -1,6 +1,5 @@
 const fieldSize = 30
 const baseSnakeSize = 15
-
 const basePointX = baseSnakeSize
 const basePointY = baseSnakeSize
 const initialSize = 4
@@ -13,7 +12,7 @@ const snake = []
 const snakeCoords = new Map()
 const foodCoords = {x:0, y:0}
 const allFieldCoords = []
-let comingThroughWalls = true
+let comingThroughWalls = true // if 'false' snake dies when hits the wall
 let speed = 50
 let direction = 'right'
 let currentFood
@@ -24,7 +23,6 @@ let selfCollision = false
 const colors = ['rgb(13, 219, 37)', 'rgb(251, 33, 3)', 'rgb(5, 255, 145)', 'rgb(5, 160, 255)', 'rgb(175, 5, 255)', 'rgb(255, 5, 141)', 'rgb(255, 5, 20)']
 const snakeColor = 'rgb(255, 255, 255)'
 let foodColor
-let currentColor
 
 countDIV.innerHTML = 'COUNT: ' + count
 countDIV.style.position = 'absolute'
@@ -135,11 +133,11 @@ function move(direc) {
 
 function collisionCheck(x, y, direction) {
     const coords = {}
-    if ((x === 0 && direction === 'left') || 
+    if (selfCollisionCheck(x,y) || 
+        (x === 0 && direction === 'left') || 
         (x === (baseSize - basePointX) && direction === 'right') || 
         (y === 0 && direction === 'up') || 
-        (y === (baseSize - basePointY) && direction === 'down') || 
-        selfCollisionCheck(x,y)) {
+        (y === (baseSize - basePointY) && direction === 'down')) {
         if (!comingThroughWalls) {
             collision = true
             clearIntervals([direction])
@@ -154,25 +152,22 @@ function collisionCheck(x, y, direction) {
             } else {
                 if (direction === 'left') {
                     createSnakePart(baseSize, y)
-                    removeTail()
                     coords.x = baseSize
                     coords.y = y
                 } else if (direction === 'right') {
                     createSnakePart(-basePointX, y)
-                    removeTail()
                     coords.x = -basePointX
                     coords.y = y
                 } else if (direction === 'up') {
                     createSnakePart(x, baseSize)
-                    removeTail()
                     coords.x = x
                     coords.y = baseSize
                 } else {
                     createSnakePart(x, -basePointY)
-                    removeTail()
                     coords.x = x
                     coords.y = -basePointY
                 }
+                removeTail()
             }
         }
     } else {
@@ -193,7 +188,10 @@ function selfCollisionCheck(x,y) {
     const arr = Array.from(snakeCoords.values())
     arr.pop()
     arr.forEach(coordObj => {
-        if (coordObj.y === y && coordObj.x === x) collision = true 
+        if (coordObj.y === y && coordObj.x === x) {
+            console.log('x: ' + x + ' y: ' + y)
+            collision = true
+        }  
     })
     if (collision === true) {
         selfCollision = true
