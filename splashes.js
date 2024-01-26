@@ -1,7 +1,7 @@
 const duration = 500
 const splashes = []
 const splashesMap = new Map()
-const splashesAmount = 15
+const splashesAmount = parseInt(baseSnakeSize * 0.75) 
 
 let startAnimations = null
 
@@ -33,17 +33,17 @@ function runSplashes(t,l) {
 function generateSplashes(t,l) {
     for (i = 0; i < splashesAmount; i++) {
         const splash = document.createElement('div')
-        const size = generateRandom(3, 5)
+        const size = generateRandom(baseSnakeSize*0.1, baseSnakeSize*0.1+5)
         splash.style.width = size + 'px'
         splash.style.height = size + 'px'
         splash.style.top = t + 'px'
         splash.style.left = l + 'px'
         splash.style.position = 'absolute'
-        splash.style.borderRadius = 50 + '%'
+        //splash.style.borderRadius = 50 + '%'
         splash.style.backgroundColor = foodColor
         splashes.push(splash)
         cont.append(splash)
-        splashesMap.set(splash, {left: generateRandom(-70, 70), top: generateRandom(10, 150)})
+        splashesMap.set(splash, {left: generateRandom(-70, 70), top: generateRandom(-10, 150)})
     }
 }
 

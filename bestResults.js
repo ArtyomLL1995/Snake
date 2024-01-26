@@ -3,7 +3,7 @@ bestResultContainer.style.width = 150 + 'px'
 bestResultContainer.style.position = 'absolute'
 bestResultContainer.style.right = 15 + '%'
 bestResultContainer.style.top = 25 + '%'
-bestResultContainer.style.color = 'white'
+bestResultContainer.style.color = bestResultColor
 let resultsList
 const bestResults = []
 
