@@ -64,11 +64,10 @@ function generateFieldCoords() {
 generateFieldCoords()
 
 function moveSnake(event) {
-    const eventKeyCode = event.keyCode
-    if (keyDirections[eventKeyCode] === 'right') moveSnakeRight()
-    if (keyDirections[eventKeyCode] === 'left') moveSnakeLeft()
-    if (keyDirections[eventKeyCode] === 'up') moveSnakeUp()
-    if (keyDirections[eventKeyCode] === 'down') moveSnakeDown()
+    if (keyDirections[event.keyCode] === 'right') moveSnakeRight()
+    if (keyDirections[event.keyCode] === 'left') moveSnakeLeft()
+    if (keyDirections[event.keyCode] === 'up') moveSnakeUp()
+    if (keyDirections[event.keyCode] === 'down') moveSnakeDown()
 }
 
 function moveSnakeRight() {

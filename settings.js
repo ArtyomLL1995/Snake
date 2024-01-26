@@ -1,4 +1,4 @@
-const fieldSize = 20
+const fieldSize = 25
 const baseSnakeSize = 20
 const speed = 50
 const initialSize = 3
