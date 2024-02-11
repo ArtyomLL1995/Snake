@@ -1,8 +1,7 @@
 const baseSize = fieldSize * baseSnakeSize // baseSnakeSize is in settings.js
 const movingIntervals = {right: null, left: null, up: null, down: null}
 const keyDirections = { 37: 'left', 38: 'up', 39: 'right', 40: 'down'}
-const cont = document.getElementById("container")
-//const countDIV = document.getElementById("count")
+const countDIV = document.getElementById("count")
 const snake = []
 const snakeCoords = new Map()
 const foodCoords = {x:0, y:0}
@@ -12,35 +11,12 @@ let currentFood
 let count = 0
 let collision = false
 let foodColor
-// countDIV.innerHTML = 'COUNT: ' + count
-// countDIV.style.position = 'absolute'
-// countDIV.style.left = 50 + '%'
-// countDIV.style.width = 100 + 'px'
-// countDIV.style.marginLeft = -100 / 2 + 'px'
-// countDIV.style.top = 100 + 'px'
 document.addEventListener('keydown', moveSnake)
-cont.style.display = 'flex'
-cont.style.alignContent = 'start'
-cont.style.flexWrap = 'wrap'
+const cont = document.getElementById("container")
 cont.style.width = baseSize + 'px'
 cont.style.height = baseSize + 'px'
-cont.style.position = 'absolute'
-cont.style.top = 50 + '%'
-cont.style.left = 50 + '%'
 cont.style.marginTop = -baseSize / 2 + 'px'
 cont.style.marginLeft = -baseSize / 2 + 'px'
-
-function generateGrid(border) {
-    for (let i = 0; i < fieldSize*fieldSize; i++) {
-        const div = document.createElement('div')
-        div.style.width = baseSnakeSize-1 + 'px'
-        div.style.height = baseSnakeSize-1 + 'px'
-        div.style.border = border
-        cont.appendChild(div)
-    }
-}
-
-generateGrid(gridBorder)
 
 function drawStartSnake() {
     for (let i = 1; i < initialSize + 1; i++) {
@@ -179,7 +155,7 @@ function selfCollisionCheck(x,y) {
 function foodCollisionCheck(x,y) {
     if (x === foodCoords.x && y === foodCoords.y) {
         count++
-        //countDIV.innerHTML = 'COUNT: ' + count
+        countDIV.innerHTML = 'COUNT: ' + count
         currentFood.remove()
         currentFood = null
         runSplashes(y,x) // function from splashes.js
@@ -190,7 +166,7 @@ function foodCollisionCheck(x,y) {
 }
 
 function createSnakePart(newOffsetX, newOffsetY) {
-    const snakePart = generateBlock(baseSnakeSize, newOffsetY, newOffsetX, snakeColor, 0, false, true)
+    const snakePart = generateBlock(baseSnakeSize, newOffsetY, newOffsetX, snakeColor, 0, false, true, true)
     snake.push(snakePart)
     snakeCoords.set(snakePart, {x : newOffsetX, y : newOffsetY})
     cont.append(snakePart) 
@@ -219,7 +195,7 @@ function generateFoodPositions() {
     })
 }
 
-function generateBlock(size, top, left, color, r, boxShadow, border) {
+function generateBlock(size, top, left, color, r, boxShadow, border, isSnakePart) {
     const block = document.createElement('div')
     block.style.width = size-1 + 'px'
     block.style.height = size-1 + 'px'
@@ -229,6 +205,7 @@ function generateBlock(size, top, left, color, r, boxShadow, border) {
     block.style.left = left + 'px'
     if (border) block.style.border = snakeBorder
     if (boxShadow) block.style.boxShadow = '0px 0px 15px 1px ' + color
+    if (isSnakePart) block.classList.add('snake-part')
     block.style.borderRadius = r + '%'
     return block
 }
