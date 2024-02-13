@@ -180,8 +180,8 @@ function getSettingsFromTheDatabase() {
     const snakeSettings = transaction.objectStore("snake settings");
     const request = snakeSettings.get(1)
     request.onsuccess = function() {
-        const {speed, fieldSize, baseSnakeSize, comingThroughWalls, initialSize, grid, splashes, colorMode} = request.result
-        setInitialSettings(speed, fieldSize, baseSnakeSize, comingThroughWalls, initialSize, grid, splashes, colorMode)
+        const res = request.result
+        setInitialSettings(res.speed, res.fieldSize, res.baseSnakeSize, res.comingThroughWalls, res.initialSize, res.grid, res.splashes, res.colorMode)
         generateFieldCoords()
         drawStartSnake()
         setColorMode(colorMode)
