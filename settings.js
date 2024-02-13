@@ -1,45 +1,79 @@
-const fieldSize = 25
-const baseSnakeSize = 20
-const speed = 50
-const initialSize = 3
+const container = document.getElementById("container")
+const countContainer = document.getElementById("count")
+const settingIcon = document.querySelector('i')
+const indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+
+const DARK_BODY = '#222738'
+const DARK_CONTAINER = '#181825'
+const DARK_CONTAINER_BORDER = '1px solid rgba(236, 236, 236, 0.2)'
+const DARK_MAIN = 'white'
+const DARK_SNAKE = 'white'
+const DARK_SNAKE_BORDER = '0.5px solid white'
+const DARK_GRID = '0.5px solid rgba(236, 236, 236, 0.05)'
+const DARK_FOOD_COLORS = ['rgb(13, 219, 37)', 'rgb(251, 33, 3)', 'rgb(5, 255, 145)', 'rgb(5, 160, 255)', 'rgb(175, 5, 255)', 'rgb(255, 5, 141)', 'rgb(255, 5, 20)']
+
+const LIGHT_BODY = '#f9fafb'
+const LIGHT_CONTAINER = '#f3f4f6'
+const LIGHT_CONTAINER_BORDER = '1px solid lightgrey'
+const LIGHT_MAIN = '#181825'
+const LIGHT_SNAKE = 'lightgreen'
+const LIGHT_SNAKE_BORDER = '0.5px solid lightgreen'
+const LIGHT_GRID = '0.05px solid rgba(211, 211, 211, 0.5)'
+const LIGHT_FOOD_COLORS = ['orange', 'rgb(251, 33, 3)', 'rgb(5, 160, 255)', 'rgb(175, 5, 255)', 'rgb(255, 5, 141)', 'rgb(255, 5, 20)']
+
+let fieldSize
+let baseSnakeSize
+let baseSize // baseSnakeSize is in settings.js
+let speed
+let comingThroughWalls
+let initialSize
+let enableGrid
+let enableSplashes
+
 let bestResultColor
 let gridBorder
 let snakeBorder
 let colors = []
 let snakeColor
-const container = document.getElementById("container")
-let colorMode = 'dark'
-const countContainer = document.getElementById("count")
-const settingIcon = document.querySelector('i')
+let colorMode
 
-const comingThroughWalls = true // if 'false' snake dies when hits the wall
+let database
+
+connectDB()
+.then(db => {
+    database = db
+    getSettingsFromTheDatabase()
+})
+.catch(error => {
+    console.error('error getting database: ', error)
+})
 
 function setColorMode(color) {
+    const circle = document.getElementById('theme-circle')
     if (color === 'dark') {
-        container.style.backgroundColor = '#181825'
-        document.body.style.backgroundColor = '#222738'
-        container.style.border = '1px solid rgba(236, 236, 236, 0.2)'
-        countContainer.style.color = 'white'
-        settingIcon.style.color = 'white'
-        bestResultColor = 'white'
-        snakeColor = 'white'
-        snakeBorder = '0.5px solid white'
-        gridBorder = '0.5px solid rgba(236, 236, 236, 0.05)'
-        colors = ['rgb(13, 219, 37)', 'rgb(251, 33, 3)', 'rgb(5, 255, 145)', 'rgb(5, 160, 255)', 'rgb(175, 5, 255)', 'rgb(255, 5, 141)', 'rgb(255, 5, 20)']
+        circle.style.transform = "translateX(0px)"
+        assignColorModeCSS(DARK_BODY, DARK_CONTAINER, DARK_CONTAINER_BORDER, DARK_MAIN, DARK_SNAKE, DARK_SNAKE_BORDER, DARK_GRID, DARK_FOOD_COLORS)
     } else if (color === 'light') {
-        container.style.backgroundColor = '#f3f4f6' 
-        document.body.style.backgroundColor = '#f9fafb'
-        container.style.border = '1px solid lightgrey'
-        countContainer.style.color = '#181825'
-        settingIcon.style.color = '#181825'
-        bestResultColor = '#181825'
-        snakeColor = 'lightgreen'
-        snakeBorder = '0.5px solid lightgreen'
-        gridBorder = '0.05px solid rgba(211, 211, 211, 0.5)'
-        colors = ['orange', 'rgb(251, 33, 3)', 'orangered', 'rgb(5, 160, 255)', 'rgb(175, 5, 255)', 'rgb(255, 5, 141)', 'rgb(255, 5, 20)']
+        circle.style.transform = "translateX(30px)"
+        assignColorModeCSS(LIGHT_BODY, LIGHT_CONTAINER, LIGHT_CONTAINER_BORDER, LIGHT_MAIN, LIGHT_SNAKE, LIGHT_SNAKE_BORDER, LIGHT_GRID, LIGHT_FOOD_COLORS)
     }
-    generateGrid()
+    if (enableGrid) {
+        generateGrid() 
+    }
     changeSnakeColor()
+}
+
+function assignColorModeCSS(bodyBGColor, contBGColor, contBorderColor, mainColor, snakeClr, snakeBr, gridBr, foodColors) {
+    document.body.style.backgroundColor = bodyBGColor
+    container.style.backgroundColor = contBGColor
+    container.style.border = contBorderColor
+    countContainer.style.color = mainColor
+    settingIcon.style.color = mainColor
+    bestResultColor = mainColor
+    snakeColor = snakeClr
+    snakeBorder = snakeBr
+    gridBorder = gridBr
+    colors = foodColors
 }
 
 function generateGrid() {
@@ -70,9 +104,9 @@ function changeSnakeColor() {
 
 function toggleOpenSettins() {
     const settingsPage = document.getElementById('settings-page');
-    const currentLeft = parseInt(window.getComputedStyle(settingsPage).left);
+    const currentLeft = parseInt(window.getComputedStyle(settingsPage).right);
     const newLeft = currentLeft === -600 ? 0 : -600
-    settingsPage.style.left = `${newLeft}px`;
+    settingsPage.style.right = `${newLeft}px`;
 }
 
 function turnSettingIcon() {
@@ -84,16 +118,12 @@ function turnBackSettingIcon() {
 }
 
 function transform(deg) {
-    const settingIcon = document.querySelector('i')
+    const settingIcon = document.getElementById('settings-icon')
     settingIcon.style.mozTransform = 'rotate('+deg+'deg)'; 
     settingIcon.style.msTransform = 'rotate('+deg+'deg)'; 
     settingIcon.style.oTransform = 'rotate('+deg+'deg)'; 
     settingIcon.style.transform = 'rotate('+deg+'deg)'; 
 }
-
-const indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-
-let database
 
 function connectDB() {
     return new Promise((resolve, reject) => {
@@ -109,53 +139,54 @@ function connectDB() {
 
         dataBaseOpenRequest.onupgradeneeded = function(e) {
             e.currentTarget.result.createObjectStore("snake settings", { keyPath: "key" });
-            connectDB(); // You may not need to call connectDB again in this case
+            connectDB();
         }
     });
 }
 
-connectDB()
-.then(db => {
-    database = db
-    getRecordFromTheDatabase()
-    //addRecordToTheDatabase()
-})
-.catch(error => {
-    console.error('error getting database: ', error)
-})
+function saveSettingsToTheDatabase(reload = true) {
 
-function addRecordToTheDatabase() {
+    const transaction = database.transaction("snake settings", "readwrite")
 
-    const transaction = database.transaction("snake settings", "readwrite");
-
-    const snakeSettings = transaction.objectStore("snake settings"); // (2)
+    const snakeSettings = transaction.objectStore("snake settings")
 
     const settings = {
         key : 1,
-        baseSnakeSize : 20,
-        fieldSize : 25,
-        speed : 50,
-        initialSize : 3,
-        colorMode : 'dark'
+        baseSnakeSize,
+        fieldSize,
+        speed,
+        initialSize,
+        comingThroughWalls,
+        splashes : enableSplashes,
+        grid : enableGrid,
+        colorMode
     }
 
     const request = snakeSettings.put(settings)
 
     request.onsuccess = function() {
-        console.log("New settings added", request.result);
-    };
+        if (reload) {
+            window.location.reload()
+        }
+    }
     
     request.onerror = function() {
-        console.log("Error adding settings", request.error);
-    };
+        alert('Error saving settins')
+    }
 }
 
-function getRecordFromTheDatabase() {
+function getSettingsFromTheDatabase() {
     const transaction = database.transaction("snake settings", "readonly"); 
-    const snakeSettings = transaction.objectStore("snake settings"); // (2)
+    const snakeSettings = transaction.objectStore("snake settings");
     const request = snakeSettings.get(1)
     request.onsuccess = function() {
-        console.log("Get settings", request.result);
+        const {speed, fieldSize, baseSnakeSize, comingThroughWalls, initialSize, grid, splashes, colorMode} = request.result
+        setInitialSettings(speed, fieldSize, baseSnakeSize, comingThroughWalls, initialSize, grid, splashes, colorMode)
+        generateFieldCoords()
+        drawStartSnake()
+        setColorMode(colorMode)
+        generateFood()
+        populateSettingInputs()
     };
     request.onerror = function() {
         console.log("Error gettings settings", request.error);
@@ -163,16 +194,103 @@ function getRecordFromTheDatabase() {
 }
 
 function toggleColor() {
-    const circle = document.querySelector('.sircle')
     if (colorMode === 'dark') {
-        circle.style.transform = "translateX(30px)"
         setColorMode('light')
         colorMode = 'light'
     } else {
-        circle.style.transform = "translateX(0px)"
         setColorMode('dark')
         colorMode = 'dark'
     }
+    saveSettingsToTheDatabase(false)
 }
 
-setColorMode(colorMode)
+function setInitialSettings(sd = 50, fs = 25, bs = 20, cw = true, is = 3, eg = true, sp = true, cl = 'dark') {
+    speed = Number(sd)
+    fieldSize = Number(fs)
+    baseSnakeSize = Number(bs)
+    initialSize = Number(is)
+    comingThroughWalls = cw
+    enableGrid = eg
+    enableSplashes = sp
+    colorMode = cl
+    baseSize = fieldSize * baseSnakeSize
+
+    container.style.width = baseSize + 'px'
+    container.style.height = baseSize + 'px'
+    container.style.marginTop = -baseSize / 2 + 'px'
+    container.style.marginLeft = -baseSize / 2 + 'px'
+}
+
+function toggleSetting(event) {
+    const circle = event.currentTarget.querySelector('.circle')
+    if (circle.dataset.name === 'walls') {
+        if (comingThroughWalls) {
+            circle.style.transform = "translateX(30px)"
+        } else {
+            circle.style.transform = "translateX(0px)"
+        }
+        comingThroughWalls = !comingThroughWalls
+    } else if (circle.dataset.name === 'splashes') {
+        if (enableSplashes) {
+            circle.style.transform = "translateX(30px)"
+        } else {
+            circle.style.transform = "translateX(0px)"
+        }
+        enableSplashes = !enableSplashes
+    } else if (circle.dataset.name === 'grid') {
+        if (enableGrid) {
+            circle.style.transform = "translateX(30px)"
+        } else {
+            circle.style.transform = "translateX(0px)"
+        }
+        enableGrid = !enableGrid
+    }
+}
+
+function saveInput(event) {
+    if (event.target.dataset.name === 'snake size') {
+        baseSnakeSize = event.target.value
+    } else if (event.target.dataset.name === 'field size') {
+        fieldSize = event.target.value
+    } else if (event.target.dataset.name === 'snake speed') {
+        speed = event.target.value
+    }
+}
+
+function populateSettingInputs() {
+
+    document.querySelectorAll('.setting-toggle').forEach(settingToggle => {
+        const circle = settingToggle.querySelector('.circle')
+        if (circle.dataset.name === 'walls') {
+            if (comingThroughWalls) {
+                circle.style.transform = "translateX(0px)"
+            } else {
+                circle.style.transform = "translateX(30px)"
+            }
+        } else if (circle.dataset.name === 'splashes') {
+            if (enableSplashes) {
+                circle.style.transform = "translateX(0px)"
+            } else {
+                circle.style.transform = "translateX(30px)"
+            }
+        } else if (circle.dataset.name === 'grid') {
+            if (enableGrid) {
+                circle.style.transform = "translateX(0px)"
+            } else {
+                circle.style.transform = "translateX(30px)"
+            }
+        }
+    })
+
+    document.querySelectorAll('.setting-input').forEach(settingInput => {
+        const input = settingInput.querySelector('input')
+        if (input.dataset.name === 'snake size') {
+            input.value = baseSnakeSize
+        } else if (input.dataset.name === 'field size') {
+            input.value = fieldSize
+        } else if (input.dataset.name === 'snake speed') {
+            input.value = speed
+        }
+    })
+}
+

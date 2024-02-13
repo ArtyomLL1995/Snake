@@ -5,16 +5,79 @@
   <link rel="stylesheet" href="./index.css">
 </head>
 <body>
+
   <div id="container">
     <div id="count">COUNT: 0</div>
   </div>
+
   <i class="fa-solid fa-gear" id="settings-icon" onclick="toggleOpenSettins()" onmouseenter="turnSettingIcon()" onmouseleave="turnBackSettingIcon()"></i>
-  <div id="settings-page">This is settigs</div>
-  <div class="toggle" onclick="toggleColor()">
-    <div class="sircle"></div>
-    <i class="fa-sharp fa-solid fa-moon" id="moon-icon"></i>
-    <i class="fa-solid fa-sun" id="sun-icon"></i>
+
+  <div id="settings-page">
+
+    <span style="font-size: 25px;">SETTINGS</span>
+
+    <div class="setting-container">
+      <div class="setting-toggle" onclick="toggleSetting(event)">
+        <div class="circle" style="background-color: orange" data-name="walls"></div>
+        <div class="circle-on">On</div>
+        <div class="circle-off">Off</div>
+      </div>
+      <div>Coming through walls</div>
+    </div>
+
+    <div class="setting-container" onclick="toggleSetting(event)">
+      <div class="setting-toggle">
+        <div class="circle" style="background-color: orange" data-name="splashes"></div>
+        <div class="circle-on">On</div>
+        <div class="circle-off">Off</div>
+      </div>
+      <div>Splashes</div>
+    </div>
+
+    <div class="setting-container" onclick="toggleSetting(event)">
+      <div class="setting-toggle">
+        <div class="circle" style="background-color: orange" data-name="grid"></div>
+        <div class="circle-on">On</div>
+        <div class="circle-off">Off</div>
+      </div>
+      <div>Grid</div>
+    </div>
+
+    <div class="setting-container">
+      <div>Snake Size</div>
+      <div class="setting-input">
+        <input type="number" onblur="saveInput(event)" data-name="snake size">
+      </div>
+      <div>px</div>
+    </div>
+
+    <div class="setting-container">
+      <div>Field Size</div>
+      <div class="setting-input">
+        <input type="number" onblur="saveInput(event)" data-name="field size">
+      </div>
+      <div>Blocks</div>
+    </div>
+
+    <div class="setting-container">
+      <div>Snake Speed</div>
+      <div class="setting-input">
+        <input type="number" onblur="saveInput(event)" data-name="snake speed" style="width: 60px">
+      </div>
+      <div>ms</div>
+    </div>
+
+    <div class="setting-container">
+      <button class="save-button" onclick="saveSettingsToTheDatabase()">SAVE</button>
+    </div>
   </div>
+
+  <div class="toggle" onclick="toggleColor()">
+    <div class="circle" style="background-color: white" id="theme-circle"></div>
+    <i class="fa-sharp fa-solid fa-moon circle-on" id="moon-icon"></i>
+    <i class="fa-solid fa-sun circle-off" id="sun-icon"></i>
+  </div>
+
   <!-- <div id="bestResults">BEST 10 RESULTS:</div> -->
   <script src="https://kit.fontawesome.com/8c0db15180.js" crossorigin="anonymous"></script>
   <script src="settings.js"></script>

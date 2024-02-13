@@ -29,7 +29,6 @@ body {
   top: 10px;
   left: 10px;
   border-radius: 2em;
-  overflow: hidden;
   width: 60px;
   height: 30px;
   z-index: 3;
@@ -49,33 +48,48 @@ body {
   transition: all 0.5s ease-in-out;
 }
 
-#moon-icon, #sun-icon {
-  color: orange;
+.circle-on, .circle-off {
   z-index: 1;
   position: absolute;
-  font-size: 20px;
   top: 50%;
   transform: translate(0, -50%);
 }
 
-#moon-icon {
+.circle-on {
+  font-size: 15px;
   left: 5px;
+  color: orange;
+}
+
+.circle-off {
+  font-size: 15px;
+  right: 5px;
+  color: #181825;
+}
+
+#moon-icon {
+  font-size: 20px;
+  left: 5px;
+  color: orange;
 }
 
 #sun-icon {
+  font-size: 20px;
   right: 5px;
+  color: orange;
 }
 
 #settings-page {
   width: 350px;
-  height: 600px;
+  height: 580px;
   position: absolute;
-  left: -600px;
+  right: -600px;
   top: 50%;
   transform: translate(0, -50%);
   transition: all 0.5s ease-in-out;
-  background-color: lightblue;
+  background-color: #181825;
   padding: 20px;
+  color: white;
 }
 
 #count {
@@ -88,14 +102,54 @@ body {
   font-weight: bold;
 }
 
-.sircle {
+.circle {
   position: absolute;
   height: 25px;
   width: 25px;
   top: 2.5px;
   left: 2.5px;
-  background-color: #fff;
   border-radius: 50%;
   transition: transform .2s cubic-bezier(.7, 0, .7, 1);
   z-index: 2;
+}
+
+.setting-toggle {
+  cursor: pointer;
+  position: relative;
+  border-radius: 2em;
+  width: 60px;
+  height: 30px;
+  background-color: white;
+  display: flex;
+}
+
+.setting-container {
+  margin-top: 45px; 
+  display: flex;
+  font-size: 25px;
+  align-items: center;
+  gap: 15px;
+}
+
+.setting-input input {
+  width: 45px;
+  height: 20px;
+  font-family: Guerilla;
+  font-size: 20px;
+}
+
+.save-button {
+  font-family: Guerilla;
+  font-size: 20px;
+  background-color: #181825; 
+  border: 1px solid white; 
+  padding: 10px; 
+  border-radius: 5px; 
+  cursor: pointer; 
+  color: white;
+}
+
+.save-button:hover {
+  background-color: white; 
+  color: #181825
 }

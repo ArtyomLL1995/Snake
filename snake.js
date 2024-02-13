@@ -1,4 +1,3 @@
-const baseSize = fieldSize * baseSnakeSize // baseSnakeSize is in settings.js
 const movingIntervals = {right: null, left: null, up: null, down: null}
 const keyDirections = { 37: 'left', 38: 'up', 39: 'right', 40: 'down'}
 const countDIV = document.getElementById("count")
@@ -13,18 +12,12 @@ let collision = false
 let foodColor
 document.addEventListener('keydown', moveSnake)
 const cont = document.getElementById("container")
-cont.style.width = baseSize + 'px'
-cont.style.height = baseSize + 'px'
-cont.style.marginTop = -baseSize / 2 + 'px'
-cont.style.marginLeft = -baseSize / 2 + 'px'
 
 function drawStartSnake() {
     for (let i = 1; i < initialSize + 1; i++) {
         createSnakePart(baseSnakeSize * i, baseSnakeSize)
     }
 } 
-
-drawStartSnake()
 
 function generateFieldCoords() {
     for (i = 0; i < baseSize; i += baseSnakeSize) {
@@ -36,8 +29,6 @@ function generateFieldCoords() {
         }
     }
 }
-
-generateFieldCoords()
 
 function moveSnake(event) {
     if (keyDirections[event.keyCode] === 'right') moveSnakeRight()
@@ -83,10 +74,12 @@ function clearIntervals() {
 
 function move(direc) {
     movingIntervals[direc] = setInterval(() => {
+        console.log('base size move: ', baseSnakeSize)
         direction = direc
         const currentHeadCoords = snakeCoords.get(snake[snake.length-1])
         const newHeadCoords = collisionCheck(currentHeadCoords.x, currentHeadCoords.y, direc)
         const snakeAteFood = foodCollisionCheck(currentHeadCoords.x, currentHeadCoords.y)
+        console.log('newHeadCoords: ', newHeadCoords)
         if (newHeadCoords) {
             if (direc === 'right') createSnakePart(newHeadCoords.x + baseSnakeSize, newHeadCoords.y)
             else if (direc === 'left') createSnakePart(newHeadCoords.x - baseSnakeSize, newHeadCoords.y)
@@ -158,7 +151,9 @@ function foodCollisionCheck(x,y) {
         countDIV.innerHTML = 'COUNT: ' + count
         currentFood.remove()
         currentFood = null
-        runSplashes(y,x) // function from splashes.js
+        if (enableSplashes) {
+            runSplashes(y,x) // function from splashes.js
+        }
         generateFood()
         return true
     } 
@@ -183,8 +178,6 @@ function generateFood() {
     currentFood = food
     foodColor = color
 }
-
-generateFood()
 
 function generateFoodPositions() {
     const snakePositionsToString = Array.from(snakeCoords.values()).map(snakePosition => {

@@ -1,11 +1,12 @@
 const duration = 500
 const splashes = []
 const splashesMap = new Map()
-const splashesAmount = parseInt(baseSnakeSize * 0.75) 
+let splashesAmount
 
 let startAnimations = null
 
 function runSplashes(t,l) {
+    splashesAmount = parseInt(baseSnakeSize * 0.75)
     generateSplashes(t,l)
     requestAnimationFrame(function measure(time) {
         if (!startAnimations) startAnimations = time
