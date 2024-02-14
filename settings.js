@@ -26,7 +26,7 @@ let baseSnakeSize
 let baseSize // baseSnakeSize is in settings.js
 let speed
 let comingThroughWalls
-let initialSize
+const initialSize = 3
 let enableGrid
 let enableSplashes
 
@@ -155,7 +155,6 @@ function saveSettingsToTheDatabase(reload = true) {
         baseSnakeSize,
         fieldSize,
         speed,
-        initialSize,
         comingThroughWalls,
         splashes : enableSplashes,
         grid : enableGrid,
@@ -180,8 +179,8 @@ function getSettingsFromTheDatabase() {
     const snakeSettings = transaction.objectStore("snake settings");
     const request = snakeSettings.get(1)
     request.onsuccess = function() {
-        const res = request.result
-        setInitialSettings(res.speed, res.fieldSize, res.baseSnakeSize, res.comingThroughWalls, res.initialSize, res.grid, res.splashes, res.colorMode)
+        const {speed, fieldSize, baseSnakeSize, comingThroughWalls, grid, splashes, colorMode} = request.result
+        setInitialSettings(speed, fieldSize, baseSnakeSize, comingThroughWalls, grid, splashes, colorMode)
         generateFieldCoords()
         drawStartSnake()
         setColorMode(colorMode)
@@ -204,15 +203,14 @@ function toggleColor() {
     saveSettingsToTheDatabase(false)
 }
 
-function setInitialSettings(sd = 50, fs = 25, bs = 20, cw = true, is = 3, eg = true, sp = true, cl = 'dark') {
-    speed = Number(sd)
-    fieldSize = Number(fs)
-    baseSnakeSize = Number(bs)
-    initialSize = Number(is)
-    comingThroughWalls = cw
-    enableGrid = eg
-    enableSplashes = sp
-    colorMode = cl
+function setInitialSettings(sd, fs, bs, cw, eg, sp, cl) {
+    speed = sd ? Number(sd) : 50
+    fieldSize = fs ? Number(fs) : 25
+    baseSnakeSize = bs ? Number(bs) : 20
+    comingThroughWalls = cw ? cw : true
+    enableGrid = eg ? eg : true
+    enableSplashes = sp ? sp : true
+    colorMode = cl ? cl : 'dark'
     baseSize = fieldSize * baseSnakeSize
 
     container.style.width = baseSize + 'px'
