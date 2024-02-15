@@ -2,6 +2,7 @@ const container = document.getElementById("container")
 const countContainer = document.getElementById("count")
 const settingIcon = document.querySelector('i')
 const indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+const initialSize = 3
 
 const DARK_BODY = '#222738'
 const DARK_CONTAINER = '#181825'
@@ -23,10 +24,9 @@ const LIGHT_FOOD_COLORS = ['orange', 'rgb(251, 33, 3)', 'rgb(5, 160, 255)', 'rgb
 
 let fieldSize
 let baseSnakeSize
-let baseSize // baseSnakeSize is in settings.js
+let baseSize
 let speed
 let comingThroughWalls
-const initialSize = 3
 let enableGrid
 let enableSplashes
 
@@ -204,13 +204,13 @@ function toggleColor() {
 }
 
 function setInitialSettings(sd, fs, bs, cw, eg, sp, cl) {
-    speed = sd ? Number(sd) : 50
-    fieldSize = fs ? Number(fs) : 25
-    baseSnakeSize = bs ? Number(bs) : 20
-    comingThroughWalls = cw ? cw : true
-    enableGrid = eg ? eg : true
-    enableSplashes = sp ? sp : true
-    colorMode = cl ? cl : 'dark'
+    speed = sd !== undefined ? Number(sd) : 50
+    fieldSize = fs !== undefined ? Number(fs) : 25
+    baseSnakeSize = bs !== undefined ? Number(bs) : 20
+    comingThroughWalls = cw !== undefined ? cw : true
+    enableGrid = eg !== undefined ? eg : true
+    enableSplashes = sp !== undefined ? sp : true
+    colorMode = cl !== undefined ? cl : 'dark'
     baseSize = fieldSize * baseSnakeSize
 
     container.style.width = baseSize + 'px'
