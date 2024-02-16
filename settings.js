@@ -3,6 +3,8 @@ const countContainer = document.getElementById("count")
 const settingIcon = document.querySelector('i')
 const indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 const initialSize = 3
+const TOGGLE_ON_COLOR = '#70798C'
+const TOGGLE_OF_COLOR = '#6BD425'
 
 const DARK_BODY = '#222738'
 const DARK_CONTAINER = '#181825'
@@ -223,23 +225,29 @@ function toggleSetting(event) {
     const circle = event.currentTarget.querySelector('.circle')
     if (circle.dataset.name === 'walls') {
         if (comingThroughWalls) {
-            circle.style.transform = "translateX(30px)"
-        } else {
             circle.style.transform = "translateX(0px)"
+            event.currentTarget.style.backgroundColor = TOGGLE_ON_COLOR
+        } else {
+            circle.style.transform = "translateX(30px)"
+            event.currentTarget.style.backgroundColor = TOGGLE_OF_COLOR
         }
         comingThroughWalls = !comingThroughWalls
     } else if (circle.dataset.name === 'splashes') {
         if (enableSplashes) {
-            circle.style.transform = "translateX(30px)"
-        } else {
             circle.style.transform = "translateX(0px)"
+            event.currentTarget.style.backgroundColor = TOGGLE_ON_COLOR
+        } else {
+            circle.style.transform = "translateX(30px)"
+            event.currentTarget.style.backgroundColor = TOGGLE_OF_COLOR
         }
         enableSplashes = !enableSplashes
     } else if (circle.dataset.name === 'grid') {
         if (enableGrid) {
-            circle.style.transform = "translateX(30px)"
-        } else {
             circle.style.transform = "translateX(0px)"
+            event.currentTarget.style.backgroundColor = TOGGLE_ON_COLOR
+        } else {
+            circle.style.transform = "translateX(30px)"
+            event.currentTarget.style.backgroundColor = TOGGLE_OF_COLOR
         }
         enableGrid = !enableGrid
     }
@@ -259,23 +267,30 @@ function populateSettingInputs() {
 
     document.querySelectorAll('.setting-toggle').forEach(settingToggle => {
         const circle = settingToggle.querySelector('.circle')
+        const circleContainer = circle.closest('.setting-toggle')
         if (circle.dataset.name === 'walls') {
             if (comingThroughWalls) {
-                circle.style.transform = "translateX(0px)"
-            } else {
                 circle.style.transform = "translateX(30px)"
+                circleContainer.style.backgroundColor = TOGGLE_OF_COLOR
+            } else {
+                circle.style.transform = "translateX(0px)"
+                circleContainer.style.backgroundColor = TOGGLE_ON_COLOR
             }
         } else if (circle.dataset.name === 'splashes') {
             if (enableSplashes) {
-                circle.style.transform = "translateX(0px)"
-            } else {
                 circle.style.transform = "translateX(30px)"
+                circleContainer.style.backgroundColor = TOGGLE_OF_COLOR
+            } else {
+                circle.style.transform = "translateX(0px)"
+                circleContainer.style.backgroundColor = TOGGLE_ON_COLOR
             }
         } else if (circle.dataset.name === 'grid') {
             if (enableGrid) {
-                circle.style.transform = "translateX(0px)"
-            } else {
                 circle.style.transform = "translateX(30px)"
+                circleContainer.style.backgroundColor = TOGGLE_OF_COLOR
+            } else {
+                circle.style.transform = "translateX(0px)"
+                circleContainer.style.backgroundColor = TOGGLE_ON_COLOR
             }
         }
     })
