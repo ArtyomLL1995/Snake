@@ -1,6 +1,7 @@
 const movingIntervals = {right: null, left: null, up: null, down: null}
 const keyDirections = { 37: 'left', 38: 'up', 39: 'right', 40: 'down'}
 const countDIV = document.getElementById("count")
+const END_GAME_SCREEN = document.getElementById("game-over-screen")
 const snake = []
 const snakeCoords = new Map()
 const foodCoords = {x:0, y:0}
@@ -79,7 +80,6 @@ function move(direc) {
         const currentHeadCoords = snakeCoords.get(snake[snake.length-1])
         const newHeadCoords = collisionCheck(currentHeadCoords.x, currentHeadCoords.y, direc)
         const snakeAteFood = foodCollisionCheck(currentHeadCoords.x, currentHeadCoords.y)
-        console.log('newHeadCoords: ', newHeadCoords)
         if (newHeadCoords) {
             if (direc === 'right') createSnakePart(newHeadCoords.x + baseSnakeSize, newHeadCoords.y)
             else if (direc === 'left') createSnakePart(newHeadCoords.x - baseSnakeSize, newHeadCoords.y)
@@ -126,6 +126,7 @@ function collisionCheck(x, y, direction) {
 function endGame() {
     clearIntervals()
     //createBestResult(count)
+    END_GAME_SCREEN.style.display = 'flex'
     document.removeEventListener('keydown', moveSnake)
 }
 
@@ -201,6 +202,10 @@ function generateBlock(size, top, left, color, r, boxShadow, border, isSnakePart
     if (isSnakePart) block.classList.add('snake-part')
     block.style.borderRadius = r + '%'
     return block
+}
+
+function restartGame() {
+    window.location.reload()
 }
 
 
