@@ -41,7 +41,7 @@ let colorMode
 
 let database
 
-connectDB()
+connectDB("snake game")
 .then(db => {
     database = db
     getSettingsFromTheDatabase()
@@ -127,9 +127,9 @@ function transform(deg) {
     settingIcon.style.transform = 'rotate('+deg+'deg)'; 
 }
 
-function connectDB() {
+function connectDB(tableName) {
     return new Promise((resolve, reject) => {
-        const dataBaseOpenRequest = indexedDB.open("snake game", 1);
+        const dataBaseOpenRequest = indexedDB.open(tableName, 1);
 
         dataBaseOpenRequest.onerror = function(err) {
             reject(err);
@@ -140,8 +140,8 @@ function connectDB() {
         }
 
         dataBaseOpenRequest.onupgradeneeded = function(e) {
-            e.currentTarget.result.createObjectStore("snake settings", { keyPath: "key" });
-            connectDB();
+            e.currentTarget.result.createObjectStore(tableName, { keyPath: "key" });
+            connectDB(tableName);
         }
     });
 }

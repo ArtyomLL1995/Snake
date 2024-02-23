@@ -183,3 +183,17 @@ body {
   border: none;
   letter-spacing: 5px;
 }
+
+#best-results-container {
+  position: absolute;
+  left: 10px;
+  top: 150px;
+  /* transform: translate(0, -50%); */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 30px;
+  color: white;
+  text-align: right;
+}

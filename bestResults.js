@@ -1,43 +1,69 @@
-const bestResultContainer = document.getElementById('bestResults')
-bestResultContainer.style.width = 150 + 'px'
-bestResultContainer.style.position = 'absolute'
-bestResultContainer.style.right = 15 + '%'
-bestResultContainer.style.top = 25 + '%'
-bestResultContainer.style.color = bestResultColor
 let resultsList
-const bestResults = []
+let bestResults = []
+let bestResultsTable
+const BEST_RESULTS = 'best results'
+const BEST_RESULTS_CONTAINER = document.getElementById('best-results-container')
 
 function createBestResult(result) {
-    const results = getBestResults()
-    results.push(result)
-    results.sort((a,b) => {
+    bestResults.push(result)
+    bestResults.sort((a,b) => {
         return b-a
     }).splice(10)
-    localStorage.setItem('bestSnakeResutls', JSON.stringify(results))
-    resultsList.remove()
-    resultsList = null
-    displayResults()
+    saveBestResult()
+    //displayResults()
 }
 
-function getBestResults() {
-    const results = localStorage.getItem('bestSnakeResutls')
-    if (results === null) {
-        localStorage.setItem('bestSnakeResutls', JSON.stringify([]))
-    }
-    return JSON.parse(localStorage.getItem('bestSnakeResutls'))
-}
-
-function displayResults() {
-    resultsList = document.createElement('div')
-    bestResultContainer.append(resultsList)
-    const results = getBestResults()
-    results.forEach(result => {
-        const resultDIV = document.createElement('div')
-        resultDIV.innerHTML = result
-        resultDIV.style.paddingTop = 5 + 'px'
-        bestResults.push(resultDIV)
-        resultsList.append(resultDIV)
+function connectBestResults() {
+    connectDB(BEST_RESULTS)
+    .then(db => {
+        bestResultsTable = db
+        getBestResultsFromTheDataBase()
+    })
+    .catch(error => {
+        console.error('error getting database: ', error)
     })
 }
 
-displayResults()
+function getBestResultsFromTheDataBase() {
+    const transaction = bestResultsTable.transaction(BEST_RESULTS, "readonly"); 
+    const bestResultsTransation = transaction.objectStore(BEST_RESULTS)
+    const request = bestResultsTransation.getAll()
+    request.onsuccess = function() {
+        bestResults = []
+        bestResults = request.result.map(result => result.bestResult)
+        displayResults()
+    };
+    request.onerror = function() {
+        console.log("Error gettings best results", request.error);
+    };
+}
+
+function saveBestResult() {
+
+    const transaction = bestResultsTable.transaction(BEST_RESULTS, "readwrite")
+    const bestResultsRecords = transaction.objectStore(BEST_RESULTS)
+
+    for (let i = 0; i < bestResults.length; i++) {
+
+        const bestResultObg = {
+            key : i,
+            bestResult : bestResults[i]
+        }
+
+        const request = bestResultsRecords.put(bestResultObg)
+
+        request.onerror = function() {
+            alert('Error saving best result')
+        }
+    }
+}
+
+function displayResults() {
+    bestResults.forEach(bestResult => {
+        const resultDiv = document.createElement('div')
+        resultDiv.textContent = bestResult
+        BEST_RESULTS_CONTAINER.appendChild(resultDiv)
+    })
+}
+
+connectBestResults()

@@ -75,7 +75,6 @@ function clearIntervals() {
 
 function move(direc) {
     movingIntervals[direc] = setInterval(() => {
-        console.log('base size move: ', baseSnakeSize)
         direction = direc
         const currentHeadCoords = snakeCoords.get(snake[snake.length-1])
         const newHeadCoords = collisionCheck(currentHeadCoords.x, currentHeadCoords.y, direc)
@@ -93,7 +92,7 @@ function move(direc) {
 }
 
 function collisionCheck(x, y, direction) {
-    const coords = {x, y}
+    let coords = {x, y}
     if (selfCollisionCheck(x, y)) {
         coords = endGame()
     } else if (
@@ -125,7 +124,7 @@ function collisionCheck(x, y, direction) {
 
 function endGame() {
     clearIntervals()
-    //createBestResult(count)
+    createBestResult(count)
     END_GAME_SCREEN.style.display = 'flex'
     document.removeEventListener('keydown', moveSnake)
 }
