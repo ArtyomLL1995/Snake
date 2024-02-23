@@ -1,5 +1,6 @@
 const container = document.getElementById("container")
 const countContainer = document.getElementById("count")
+const bestResultContainer = document.getElementById("best-results-container")
 const settingIcon = document.querySelector('i')
 const indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 const initialSize = 3
@@ -69,6 +70,7 @@ function assignColorModeCSS(bodyBGColor, contBGColor, contBorderColor, mainColor
     document.body.style.backgroundColor = bodyBGColor
     container.style.backgroundColor = contBGColor
     container.style.border = contBorderColor
+    bestResultContainer.style.color = mainColor
     countContainer.style.color = mainColor
     settingIcon.style.color = mainColor
     bestResultColor = mainColor
