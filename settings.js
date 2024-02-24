@@ -33,6 +33,8 @@ let comingThroughWalls
 let enableGrid
 let enableSplashes
 
+const HA_HA = 'haha'
+
 let bestResultColor
 let gridBorder
 let snakeBorder
