@@ -33,8 +33,6 @@ let comingThroughWalls
 let enableGrid
 let enableSplashes
 
-const TEST = 'test'
-
 let bestResultColor
 let gridBorder
 let snakeBorder
