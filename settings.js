@@ -124,6 +124,23 @@ function turnBackSettingIcon() {
     transform(0)
 }
 
+function drawStartSnake() {
+    for (let i = 1; i < initialSize + 1; i++) {
+        createSnakePart(baseSnakeSize * i, baseSnakeSize)
+    }
+} 
+
+function generateFieldCoords() {
+    for (i = 0; i < baseSize; i += baseSnakeSize) {
+        for (j = 0; j < baseSize; j += baseSnakeSize) {
+            const coords = {}
+            coords.x = i
+            coords.y = j
+            allFieldCoords.push(coords)
+        }
+    }
+}
+
 function transform(deg) {
     const settingIcon = document.getElementById('settings-icon')
     settingIcon.style.mozTransform = 'rotate('+deg+'deg)'; 
