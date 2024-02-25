@@ -80,7 +80,8 @@ body {
 }
 
 #settings-page {
-  width: 350px;
+  font-family: 'Courier New', Courier, monospace;
+  width: 400px;
   height: 580px;
   position: absolute;
   right: -600px;
@@ -100,6 +101,7 @@ body {
   transform: translate(-50%, 0);
   font-size: 30px;
   font-weight: bold;
+  letter-spacing: 5px;
 }
 
 .circle {
@@ -140,6 +142,7 @@ body {
 
 .save-button {
   font-family: Guerilla;
+  letter-spacing: 5px;
   font-size: 20px;
   background-color: #181825; 
   border: 1px solid white; 
