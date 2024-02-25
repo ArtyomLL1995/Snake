@@ -7,6 +7,8 @@ const initialSize = 3
 const TOGGLE_ON_COLOR = '#70798C'
 const TOGGLE_OF_COLOR = '#6BD425'
 
+const SNAKE_SETTINGS_DB = 'snake settings'
+
 const DARK_BODY = '#222738'
 const DARK_CONTAINER = '#181825'
 const DARK_CONTAINER_BORDER = '1px solid rgba(236, 236, 236, 0.2)'
@@ -42,7 +44,7 @@ let colorMode
 
 let database
 
-connectDB("snake game")
+connectDB(SNAKE_SETTINGS_DB)
 .then(db => {
     console.log('settings database: ', db)
     database = db
@@ -155,9 +157,9 @@ function connectDB(tableName) {
 
 function saveSettingsToTheDatabase(reload = true) {
 
-    const transaction = database.transaction("snake settings", "readwrite")
+    const transaction = database.transaction(SNAKE_SETTINGS_DB, "readwrite")
 
-    const snakeSettings = transaction.objectStore("snake settings")
+    const snakeSettings = transaction.objectStore(SNAKE_SETTINGS_DB)
 
     const settings = {
         key : 1,
@@ -184,8 +186,8 @@ function saveSettingsToTheDatabase(reload = true) {
 }
 
 function getSettingsFromTheDatabase() {
-    const transaction = database.transaction("snake settings", "readonly"); 
-    const snakeSettings = transaction.objectStore("snake settings");
+    const transaction = database.transaction(SNAKE_SETTINGS_DB, "readonly"); 
+    const snakeSettings = transaction.objectStore(SNAKE_SETTINGS_DB);
     const request = snakeSettings.get(1)
     request.onsuccess = function() {
         const {speed, fieldSize, baseSnakeSize, comingThroughWalls, grid, splashes, colorMode} = request.result
