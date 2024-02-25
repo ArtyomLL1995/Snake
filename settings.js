@@ -130,18 +130,22 @@ function transform(deg) {
 }
 
 function connectDB(tableName) {
+    console.log('connect db')
     return new Promise((resolve, reject) => {
         const dataBaseOpenRequest = indexedDB.open(tableName, 1);
 
         dataBaseOpenRequest.onerror = function(err) {
+            console.log('error getting db')
             reject(err);
         }
 
         dataBaseOpenRequest.onsuccess = function() {
+            console.log('success getting db')
             resolve(dataBaseOpenRequest.result);
         }
 
         dataBaseOpenRequest.onupgradeneeded = function(e) {
+            console.log('upgrade')
             e.currentTarget.result.createObjectStore(tableName, { keyPath: "key" });
             connectDB(tableName);
         }
