@@ -16,7 +16,6 @@ function createBestResult(result) {
 function connectBestResults() {
     connectDB(BEST_RESULTS)
     .then(db => {
-        console.log('best results database: ', db)
         bestResultsTable = db
         getBestResultsFromTheDataBase()
     })
@@ -35,7 +34,7 @@ function getBestResultsFromTheDataBase() {
         displayResults()
     };
     request.onerror = function() {
-        console.log("Error gettings best results", request.error);
+        console.error("Error gettings best results", request.error);
     };
 }
 

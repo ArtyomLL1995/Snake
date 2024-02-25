@@ -46,7 +46,6 @@ let database
 
 connectDB(SNAKE_SETTINGS_DB)
 .then(db => {
-    console.log('settings database: ', db)
     database = db
     getSettingsFromTheDatabase()
 })
@@ -150,22 +149,18 @@ function transform(deg) {
 }
 
 function connectDB(tableName) {
-    console.log('connect db: ' + tableName)
     return new Promise((resolve, reject) => {
         const dataBaseOpenRequest = indexedDB.open(tableName, 1);
 
         dataBaseOpenRequest.onerror = function(err) {
-            console.log('error getting db')
             reject(err);
         }
 
         dataBaseOpenRequest.onsuccess = function() {
-            console.log('success getting db')
             resolve(dataBaseOpenRequest.result);
         }
 
         dataBaseOpenRequest.onupgradeneeded = function(e) {
-            console.log('upgrade')
             e.currentTarget.result.createObjectStore(tableName, { keyPath: "key" });
             connectDB(tableName);
         }
@@ -207,8 +202,6 @@ function getSettingsFromTheDatabase() {
     const snakeSettings = transaction.objectStore(SNAKE_SETTINGS_DB);
     const request = snakeSettings.get(1)
     request.onsuccess = function() {
-        console.log('request: ', request)
-        console.log('SETTINGS: ', request.result)
         setInitialSettings(
             request.result?.speed, 
             request.result?.fieldSize, 
@@ -225,7 +218,7 @@ function getSettingsFromTheDatabase() {
         populateSettingInputs()
     };
     request.onerror = function() {
-        console.log("Error gettings settings", request.error);
+        console.error("Error gettings settings", request.error);
     };
 }
 
