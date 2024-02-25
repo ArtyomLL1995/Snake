@@ -190,6 +190,7 @@ function getSettingsFromTheDatabase() {
     const snakeSettings = transaction.objectStore(SNAKE_SETTINGS_DB);
     const request = snakeSettings.get(1)
     request.onsuccess = function() {
+        console.log('request: ', request)
         console.log('SETTINGS: ', request.result)
         setInitialSettings(
             request.result?.speed, 
