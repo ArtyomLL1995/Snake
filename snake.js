@@ -135,7 +135,7 @@ function foodCollisionCheck(x,y) {
         currentFood.remove()
         currentFood = null
         if (enableSplashes) {
-            runSplashes(y,x) // function from splashes.js
+            runSplashes(y,x)
         }
         generateFood()
         return true

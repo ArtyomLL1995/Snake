@@ -10,7 +10,6 @@ function createBestResult(result) {
         return b-a
     }).splice(10)
     saveBestResult()
-    //displayResults()
 }
 
 function connectBestResults() {
