@@ -16,11 +16,12 @@ function createBestResult(result) {
 function connectBestResults() {
     connectDB(BEST_RESULTS)
     .then(db => {
+        console.log('best results database: ', db)
         bestResultsTable = db
         getBestResultsFromTheDataBase()
     })
     .catch(error => {
-        console.error('error getting database: ', error)
+        console.error('error getting best result: ', error)
     })
 }
 

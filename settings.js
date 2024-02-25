@@ -44,6 +44,7 @@ let database
 
 connectDB("snake game")
 .then(db => {
+    console.log('settings database: ', db)
     database = db
     getSettingsFromTheDatabase()
 })
@@ -130,7 +131,7 @@ function transform(deg) {
 }
 
 function connectDB(tableName) {
-    console.log('connect db')
+    console.log('connect db: ' + tableName)
     return new Promise((resolve, reject) => {
         const dataBaseOpenRequest = indexedDB.open(tableName, 1);
 
