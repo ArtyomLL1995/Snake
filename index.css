@@ -91,6 +91,7 @@ body {
   background-color: #181825;
   padding: 20px;
   color: white;
+  z-index: 5;
 }
 
 #count {
