@@ -106,6 +106,7 @@ function collisionCheck(x, y, direction) {
 }
 
 function endGame() {
+    currentFood.remove()
     clearIntervals()
     createBestResult(count)
     END_GAME_SCREEN.style.display = 'flex'
@@ -134,9 +135,7 @@ function foodCollisionCheck(x,y) {
         countDIV.innerHTML = 'COUNT: ' + count
         currentFood.remove()
         currentFood = null
-        if (enableSplashes) {
-            runSplashes(y,x)
-        }
+        if (enableSplashes) runSplashes(y,x)
         generateFood()
         return true
     } 
