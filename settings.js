@@ -11,7 +11,7 @@ const SNAKE_SETTINGS_DB = 'snake settings'
 
 const DARK_BODY = '#222738'
 const DARK_CONTAINER = '#181825'
-const DARK_CONTAINER_BORDER = '1px solid rgba(236, 236, 236, 0.2)'
+const DARK_CONTAINER_BORDER = '1px solid #181825'
 const DARK_MAIN = 'white'
 const DARK_SNAKE = 'white'
 const DARK_SNAKE_BORDER = '0.5px solid white'
@@ -20,7 +20,7 @@ const DARK_FOOD_COLORS = ['rgb(13, 219, 37)', 'rgb(251, 33, 3)', 'rgb(5, 255, 14
 
 const LIGHT_BODY = '#f9fafb'
 const LIGHT_CONTAINER = '#f3f4f6'
-const LIGHT_CONTAINER_BORDER = '1px solid lightgrey'
+const LIGHT_CONTAINER_BORDER = '1px solid #f3f4f6'
 const LIGHT_MAIN = '#181825'
 const LIGHT_SNAKE = 'lightgreen'
 const LIGHT_SNAKE_BORDER = '0.5px solid lightgreen'
