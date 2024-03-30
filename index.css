@@ -97,7 +97,7 @@ body {
 #count {
   position: absolute;
   left: 50%;
-  top: -50px;
+  top: -75px;
   color: white;
   transform: translate(-50%, 0);
   font-size: 30px;

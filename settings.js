@@ -19,12 +19,12 @@ const DARK_GRID = '0.5px solid rgba(236, 236, 236, 0.05)'
 const DARK_FOOD_COLORS = ['rgb(13, 219, 37)', 'rgb(251, 33, 3)', 'rgb(5, 255, 145)', 'rgb(5, 160, 255)', 'rgb(175, 5, 255)', 'rgb(255, 5, 141)', 'rgb(255, 5, 20)']
 
 const LIGHT_BODY = '#f9fafb'
-const LIGHT_CONTAINER = '#f3f4f6'
-const LIGHT_CONTAINER_BORDER = '1px solid #f3f4f6'
+const LIGHT_CONTAINER = '#EEEEEE'
+const LIGHT_CONTAINER_BORDER = '1px solid #EEEEEE'
 const LIGHT_MAIN = '#181825'
-const LIGHT_SNAKE = 'lightgreen'
-const LIGHT_SNAKE_BORDER = '0.5px solid lightgreen'
-const LIGHT_GRID = '0.05px solid rgba(211, 211, 211, 0.5)'
+const LIGHT_SNAKE = '#06F746'
+const LIGHT_SNAKE_BORDER = '0.5px solid #06F746'
+const LIGHT_GRID = '0.05px solid #D6D6D6'
 const LIGHT_FOOD_COLORS = ['orange', 'rgb(251, 33, 3)', 'rgb(5, 160, 255)', 'rgb(175, 5, 255)', 'rgb(255, 5, 141)', 'rgb(255, 5, 20)']
 
 let fieldSize
