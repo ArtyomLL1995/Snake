@@ -31,6 +31,7 @@ let fieldSize
 let baseSnakeSize
 let baseSize
 let speed
+let currentSpeed
 let comingThroughWalls
 let enableGrid
 let enableSplashes
@@ -235,6 +236,7 @@ function toggleColor() {
 
 function setInitialSettings(sd, fs, bs, cw, eg, sp, cl) {
     speed = sd !== undefined ? Number(sd) : 50
+    currentSpeed = speed
     fieldSize = fs !== undefined ? Number(fs) : 25
     baseSnakeSize = bs !== undefined ? Number(bs) : 20
     comingThroughWalls = cw !== undefined ? cw : true

@@ -71,7 +71,7 @@ function move(direc) {
                 removeTail()
             }
         }
-    }, speed)
+    }, currentSpeed)
 }
 
 function collisionCheck(x, y, direction) {
@@ -132,6 +132,9 @@ function selfCollisionCheck(x,y) {
 function foodCollisionCheck(x,y) {
     if (x === foodCoords.x && y === foodCoords.y) {
         count++
+        if (count % 10 === 0) {
+            currentSpeed -= 2
+        } 
         countDIV.innerHTML = 'COUNT: ' + count
         currentFood.remove()
         currentFood = null
